@@ -1,11 +1,15 @@
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10'))])
 
 pipeline {
-    agent {label 'agent1'}
+     agent any // {label 'agent'}
+    
+    options {
+    timestamps()
+    } 
     
     tools {
         // Install the Maven
-        maven "3.8.6"
+        maven '3.8.6'
     }
     
     stages {
@@ -13,7 +17,7 @@ pipeline {
             steps {
                 // Get code from a GitHub repository
                 git branch: 'main',
-                credentialsId: 'serhiib0x',
+                credentialsId: '642d5294-a7a2-4f63-a0c6-1e10aac6b1da',
                 url: 'git@github.com:serhiib0x/spring-petclinic-main.git'
             sh "ls -ltr"
            }
