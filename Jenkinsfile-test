@@ -1,11 +1,11 @@
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10'))])
 
 pipeline {
-    agent {label 'agent1'}
+    agent any // {label 'agent1'}
     
     tools {
         // Install the Maven
-        maven "3.8.6"
+        maven '3.8.6'
     }
     
     stages {
