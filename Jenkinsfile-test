@@ -18,7 +18,7 @@ pipeline {
             sh "ls -ltr"
            }
         }
-                stage('Maven Test') {
+        stage('Maven Test') {
             steps {
                 // Make Maven test
             echo "----------MAVEN TEST----------"
