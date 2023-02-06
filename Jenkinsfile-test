@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // Get code from a GitHub repository
                 git branch: 'main',
-                credentialsId: 'serhiib0x',
+                credentialsId: '642d5294-a7a2-4f63-a0c6-1e10aac6b1da',
                 url: 'git@github.com:serhiib0x/spring-petclinic-main.git'
             sh "ls -ltr"
            }
