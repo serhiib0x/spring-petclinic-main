@@ -23,7 +23,7 @@ pipeline {
             steps {
                 // Make Maven test
             echo "----------MAVEN TEST----------"
-            // sh "mvn test"
+            sh "mvn test"
            }
         }
         
