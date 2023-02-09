@@ -2,7 +2,9 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
 
 pipeline {
     agent any // {label 'agent1'}
-    
+    options {
+        timestamps()
+    }
     tools {
         // Install the Maven
         maven '3.9.0'
