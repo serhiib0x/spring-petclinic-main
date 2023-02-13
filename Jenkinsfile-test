@@ -45,5 +45,18 @@ pipeline {
                 }
             }
         }
+        stage('Delivery to Dev Server') {
+                steps {
+                // Delivery artifact to dev_server
+                    sshPublisher(publishers: [sshPublisherDesc(configName: 'dev_server',
+                    transfers: [sshTransfer(cleanRemote: false,
+                    excludes: '', execCommand: 'sudo systemctl restart petdev',
+                    execTimeout: 120000, flatten: false, makeEmptyDirs: false,
+                    noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '',
+                    remoteDirectorySDF: false, removePrefix: 'target',
+                    sourceFiles: 'target/spring-petclinic-3.0.0-SNAPSHOT.jar')],
+                    usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+            }
+        }
     }
 }
