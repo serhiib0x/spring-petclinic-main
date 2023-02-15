@@ -1,7 +1,7 @@
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10'))])
 
 pipeline {
-    agent any // {label 'agent1'}
+    agent any 
     options {
         timestamps()
     }
@@ -13,41 +13,40 @@ pipeline {
     stages {
         stage('Pull from GitHub') {
             steps {
-                // Get code from a GitHub repository
-                // git branch: 'main',
-                // credentialsId: '642d5294-a7a2-4f63-a0c6-1e10aac6b1da',
-                // url: 'git@github.com:serhiib0x/spring-petclinic-main.git'
-            git url: 'https://github.com/serhiib0x/spring-petclinic-main.git', branch: 'main'
+                // Download source_code from the my repository
+                git branch: 'main',
+                credentialsId: 'serhiib0x-key-github',
+                url: 'git@github.com:serhiib0x/spring-petclinic-main.git'
             sh "ls -ltr"
            }
         }
         stage('Maven Test') {
             steps {
-                // Make Maven test
-            echo "----------MAVEN TEST----------"
+                // Performing Maven Test
+            echo "-----------Stage Mavet Test-----------"
             sh "mvn test"
            }
         }
         
         stage('Build') {
             steps {
-                // Make Maven package
-            echo "----------MAVEN PACKAGE----------"
+                // Making Artifact package
+            echo "-----------Stage Maven package build-----------"
             sh "mvn clean package"
             }
             
             post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
+                // Archive artifact and write the test results.
                 success {
                     junit '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'target/*.jar'
                 }
             }
         }
-        stage('Delivery to Dev Server') {
+        stage('Delivering Artifact to Developer Server') {
                 steps {
-                // Delivery artifact to dev_server
+                // Delivering artifact to Developer Server through PublishOverSSH plugin
+                    echo "-----------Stage Maven package build-----------"
                     sshPublisher(publishers: [sshPublisherDesc(configName: 'dev_server',
                     transfers: [sshTransfer(cleanRemote: false,
                     excludes: '', execCommand: 'sudo systemctl restart petdev',
